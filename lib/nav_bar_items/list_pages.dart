@@ -1,9 +1,7 @@
-import 'dart:collection';
+import 'package:currency_picker/currency_picker.dart';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:myapp/models/currencyCard.dart';
-import 'package:myapp/models/currencyModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/models/rates.dart';
 
@@ -83,36 +81,8 @@ class _ListPageState extends State<ListPage> {
             itemCount: this.rates != null ? this.searchIndices.length : 0,
             itemBuilder: (context, index) {
               final rate = rates[this.searchIndices[index]];
-              return new Container(
-                height: 42.0,
-                child: new Column(
-                  children: <Widget>[
-                    new Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            new Image(
-                                image: new AssetImage(
-                                    _getImageName(searchIndices[index])),
-                                width: 18.0,
-                                height: 18.0),
-                            new Container(
-                              width: 6.0,
-                            ),
-                            new Text(searchIndices[index]),
-                          ],
-                        ),
-                        new Text(
-                            rate["symbol"] + rate["value"].toStringAsFixed(2)),
-                      ],
-                    ),
-                    new Divider(),
-                  ],
-                ),
-              );
+              return CurrencyCard(
+                  name: searchIndices[index], price: rate["value"]);
             }));
   }
 }
