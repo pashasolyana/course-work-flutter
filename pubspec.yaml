@@ -39,6 +39,10 @@ dependencies:
   flutter_native_splash: ^2.2.12
   google_nav_bar: ^5.0.6
   http: ^0.13.5
+  provider: ^6.0.4
+  shared_preferences: ^2.0.15
+  flutter_device_type: ^0.4.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

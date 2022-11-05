@@ -1,4 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:collection';
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:myapp/models/currencyCard.dart';
+import 'package:myapp/models/currencyModel.dart';
+import 'package:http/http.dart' as http;
+import 'package:myapp/models/rates.dart';
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key});
@@ -8,12 +15,104 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
+  late Map<dynamic, dynamic> rates;
+  var keyIndices = [];
+  var searchIndices = [];
+
+  String _getImageName(String index) {
+    return "assets/" + index + ".png";
+  }
+
+  dynamic fetchCoin() async {
+    final response = await http.get(Uri.parse(
+        'https://v6.exchangerate-api.com/v6/5e8c375a23495c5883da2555/latest/RUB'));
+
+    final map = json.decode(response.body);
+    if (map["result"] == "success") {
+      final ratesJSON = map["conversion_rates"];
+      final ratesObject = new Rates.fromJson(ratesJSON);
+
+      ratesObject.initValues();
+      return ratesObject.rates;
+    } else {
+      throw Exception('FAILED');
+    }
+  }
+
+  void _getRates() async {
+    final response = await fetchCoin();
+    if (response is Map) {
+      for (var key in response.keys) {
+        print(response[key]["flag"] +
+            " " +
+            response[key]["definition"] +
+            ": " +
+            response[key]["symbol"].toString() +
+            response[key]["value"].toString());
+        keyIndices.add(key);
+      }
+      print(keyIndices);
+      setState(() {
+        searchIndices = keyIndices;
+        rates = response;
+      });
+      print(rates);
+    } else {
+      throw Exception('FAILED N2');
+    }
+  }
+
+  @override
+  void initState() {
+    _getRates();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('List page')
-      ),
-    );
+    return Scaffold(
+        appBar: AppBar(
+            backgroundColor: Colors.grey[100],
+            title: Text('RATE LIST',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold))),
+        body: ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: this.rates != null ? this.searchIndices.length : 0,
+            itemBuilder: (context, index) {
+              final rate = rates[this.searchIndices[index]];
+              return new Container(
+                height: 42.0,
+                child: new Column(
+                  children: <Widget>[
+                    new Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            new Image(
+                                image: new AssetImage(
+                                    _getImageName(searchIndices[index])),
+                                width: 18.0,
+                                height: 18.0),
+                            new Container(
+                              width: 6.0,
+                            ),
+                            new Text(searchIndices[index]),
+                          ],
+                        ),
+                        new Text(
+                            rate["symbol"] + rate["value"].toStringAsFixed(2)),
+                      ],
+                    ),
+                    new Divider(),
+                  ],
+                ),
+              );
+            }));
   }
 }

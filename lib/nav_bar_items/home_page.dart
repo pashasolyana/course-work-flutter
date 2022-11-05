@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:myapp/models/country.dart';
 
 import '../repository/convert_repository.dart';
@@ -21,17 +17,16 @@ class _HomePageState extends State<HomePage> {
   double value = 1;
   late Future<double> resFuture;
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _requestConvert();
   }
 
-  _requestConvert(){
+  _requestConvert() {
     resFuture = ConvertRepo().convert(
-      fromCurr: fromCountry.currency,
-      toCurr: toCountry.currency,
-      value: value
-    );
+        fromCurr: fromCountry.currency,
+        toCurr: toCountry.currency,
+        value: value);
   }
 
   @override
@@ -41,7 +36,8 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('Currency converter', style: TextStyle(color: Colors.black)),
+        title: const Text('Currency converter',
+            style: TextStyle(color: Colors.black)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
@@ -58,22 +54,20 @@ class _HomePageState extends State<HomePage> {
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(2),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.indigo.withOpacity(0.2),
-                        spreadRadius: 2,
-                        blurRadius: 3,
-                        offset: Offset(0,3))
-                    ]),
-                    child: Center(
-                      child: Text('=', style: 
-                      TextStyle(
-                        fontSize: 30, 
-                        fontWeight: FontWeight.w600)
-                      ),
-                    ),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(2),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.indigo.withOpacity(0.2),
+                            spreadRadius: 2,
+                            blurRadius: 3,
+                            offset: Offset(0, 3))
+                      ]),
+                  child: Center(
+                    child: Text('=',
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.w600)),
+                  ),
                 ),
                 InkWell(
                   onTap: () {
@@ -88,15 +82,19 @@ class _HomePageState extends State<HomePage> {
                     height: 50,
                     //width: 50,
                     decoration: BoxDecoration(
-                    color: Colors.indigo[50],
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.indigo)),
+                        color: Colors.indigo[50],
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.indigo)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         children: [
                           Image.asset('up-down.png', height: 30),
-                          Text('Switch Currencies', style: TextStyle(color: Colors.indigo, fontSize: 17, fontWeight: FontWeight.w500))
+                          Text('Switch Currencies',
+                              style: TextStyle(
+                                  color: Colors.indigo,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500))
                         ],
                       ),
                     ),
@@ -104,125 +102,125 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 30
-            ),
+            const SizedBox(height: 30),
             FutureBuilder<double>(
-              future: resFuture,
-              builder: (context, snapshot){
-                if(snapshot.hasData){
-                  return _buildCurrencyView(toCountry, true, res : snapshot.data);
-                }
-                return SizedBox.shrink();
-              })
+                future: resFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return _buildCurrencyView(toCountry, true,
+                        res: snapshot.data);
+                  }
+                  return SizedBox.shrink();
+                })
           ],
         ),
       ),
     );
   }
 
-  Container _buildCurrencyView(Country country, bool isDestination, {double? res}) {
+  Container _buildCurrencyView(Country country, bool isDestination,
+      {double? res}) {
     return Container(
-            height: 170,
-            decoration: BoxDecoration(
-              color: Colors.white, 
-              borderRadius: BorderRadius.circular(5), 
-              boxShadow: [
-                BoxShadow(
+      height: 170,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5),
+          boxShadow: [
+            BoxShadow(
                 color: Colors.indigo.withOpacity(0.3),
                 spreadRadius: 2,
                 blurRadius: 4,
-                offset: Offset(0,3))
-              ]
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    onTap: () => _buildMenuCurrency(isDestination),
-                    child: Row(children: [
-                      ClipRRect(
-                        borderRadius : BorderRadius.circular(5),
-                        child: Image.asset(
-                        country.urlFlag, 
-                        height: 30, 
-                        width: 30
-                        )
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(country.name, 
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600
-                                )),
-                              Text(country.currency, 
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400)),
-                            ],
-                          ),
-                        ),
-                        Icon(Icons.chevron_right, color: Colors.grey)
-                    ],
+                offset: Offset(0, 3))
+          ]),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () => _buildMenuCurrency(isDestination),
+                child: Row(
+                  children: [
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset(country.urlFlag,
+                            height: 30, width: 30)),
+                    SizedBox(
+                      width: 10,
                     ),
-                  ),
-                  TextFormField(
-                    key: isDestination ? Key(res.toString()) : Key(value.toString()),
-                    style : TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
-                    initialValue: isDestination ? res.toString() :  value.toString(),
-                    onFieldSubmitted: (val){
-                      if(double.parse(val)!=null){
-                        setState(() {
-                          value = double.parse(val);
-                          _requestConvert();
-                        });
-                      }
-                    },
-                    decoration: InputDecoration(
-                      hintText: '0.0',
-                      enabled: !isDestination,
-                      suffixIcon: Text(country.currency, style: TextStyle(fontSize: 20, color: Colors.grey)),
-                      suffixIconConstraints: BoxConstraints(minWidth: 0,minHeight: 0)
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(country.name,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w600)),
+                          Text(country.currency,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400)),
+                        ],
+                      ),
                     ),
-                  )
-                ]
+                    Icon(Icons.chevron_right, color: Colors.grey)
+                  ],
+                ),
               ),
-            ),
-          );
+              TextFormField(
+                key:
+                    isDestination ? Key(res.toString()) : Key(value.toString()),
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+                initialValue: isDestination ? res.toString() : value.toString(),
+                onFieldSubmitted: (val) {
+                  if (double.parse(val) != null) {
+                    setState(() {
+                      value = double.parse(val);
+                      _requestConvert();
+                    });
+                  }
+                },
+                decoration: InputDecoration(
+                    hintText: '0.0',
+                    enabled: !isDestination,
+                    suffixIcon: Text(country.currency,
+                        style: TextStyle(fontSize: 20, color: Colors.grey)),
+                    suffixIconConstraints:
+                        BoxConstraints(minWidth: 0, minHeight: 0)),
+              )
+            ]),
+      ),
+    );
   }
 
-  _buildMenuCurrency(bool isDestination){
-    showCupertinoDialog(context: context, builder: (_) => CupertinoActionSheet(
-        actions: _buildListActions(onPressed: (index){
-          setState(() {
-            isDestination ? toCountry = datas[index] : fromCountry = datas[index];
-            _requestConvert();
-            Navigator.pop(context);
-          });
-        }),
-        cancelButton: CupertinoActionSheetAction(
-          isDestructiveAction: true, 
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel')
-        ),
-    ));
+  _buildMenuCurrency(bool isDestination) {
+    showCupertinoDialog(
+        context: context,
+        builder: (_) => CupertinoActionSheet(
+              actions: _buildListActions(onPressed: (index) {
+                setState(() {
+                  isDestination
+                      ? toCountry = datas[index]
+                      : fromCountry = datas[index];
+                  _requestConvert();
+                  Navigator.pop(context);
+                });
+              }),
+              cancelButton: CupertinoActionSheetAction(
+                  isDestructiveAction: true,
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel')),
+            ));
   }
 
- List<Widget> _buildListActions({required Function(int) onPressed}){
-   var listActions = <Widget>[];
-   for(var i =0; i < datas.length; i++){
-     listActions.add(CupertinoActionSheetAction(onPressed: () => onPressed(i), child: Text(datas[i].name)));
-   }
-   return listActions;
- }
+  List<Widget> _buildListActions({required Function(int) onPressed}) {
+    var listActions = <Widget>[];
+    for (var i = 0; i < datas.length; i++) {
+      listActions.add(CupertinoActionSheetAction(
+          onPressed: () => onPressed(i), child: Text(datas[i].name)));
+    }
+    return listActions;
+  }
 }

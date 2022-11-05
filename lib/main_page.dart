@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:myapp/nav_bar_items/graphics_page.dart';
@@ -14,13 +16,9 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
 
-  List screens = [
-    ListPage(),
-    HomePage(),
-    GraphicPage()
-  ];
+  List screens = [ListPage(), const HomePage(), const GraphicPage()];
 
-  void onTap(int index){
+  void onTap(int index) {
     setState(() {
       _currentIndex = index;
     });
@@ -29,33 +27,32 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-        ),
-        body: screens[_currentIndex],
-        bottomNavigationBar: GNav(
-          onTabChange: onTap,
-          selectedIndex: _currentIndex,
-          tabs: const [
-            GButton(
-              icon: Icons.align_horizontal_left_rounded,
-              text : 'List',
-              iconActiveColor: Colors.black,
-              textColor: Colors.black,
-            ),
-            GButton(
-              icon: Icons.home,
-              text : 'Home',
-              iconActiveColor: Colors.black,
-              textColor: Colors.black,
-            ),
-            GButton(
-              icon: Icons.align_vertical_bottom_rounded,
-              text : 'Graphics',
-              iconActiveColor: Colors.black,
-              textColor: Colors.black,
-            ),
-          ],
-        ),
+      appBar: AppBar(),
+      body: screens[_currentIndex],
+      bottomNavigationBar: GNav(
+        onTabChange: onTap,
+        selectedIndex: _currentIndex,
+        tabs: const [
+          GButton(
+            icon: Icons.align_horizontal_left_rounded,
+            text: 'List',
+            iconActiveColor: Colors.black,
+            textColor: Colors.black,
+          ),
+          GButton(
+            icon: Icons.home,
+            text: 'Home',
+            iconActiveColor: Colors.black,
+            textColor: Colors.black,
+          ),
+          GButton(
+            icon: Icons.align_vertical_bottom_rounded,
+            text: 'Graphics',
+            iconActiveColor: Colors.black,
+            textColor: Colors.black,
+          ),
+        ],
+      ),
     );
   }
 }
