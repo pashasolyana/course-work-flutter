@@ -16,15 +16,15 @@ class _ListPageState extends State<ListPage> {
   late Map<dynamic, dynamic> rates;
   var keyIndices = [];
   var searchIndices = [];
-  var choosenCurr = "USA";
+  var choosenCurr = 'USD';
 
   String _getImageName(String index) {
     return "assets/" + index + ".png";
   }
 
   dynamic fetchCoin() async {
-    final response = await http.get(Uri.parse(
-        'https://v6.exchangerate-api.com/v6/5e8c375a23495c5883da2555/latest/USD'));
+    late String uri = 'https://v6.exchangerate-api.com/v6/5e8c375a23495c5883da2555/latest/$choosenCurr';
+    final response = await http.get(Uri.parse(uri));
 
     final map = json.decode(response.body);
     if (map["result"] == "success") {
@@ -70,13 +70,42 @@ class _ListPageState extends State<ListPage> {
                     color: Colors.black,
                     fontSize: 20,
                     fontWeight: FontWeight.bold))),
-        body: ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: searchIndices.length,
-            itemBuilder: (context, index) {
-              final rate = rates[searchIndices[index]];
-              return CurrencyCard(
-                  name: searchIndices[index], price: rate["value"]);
-            }));
+        body: Column(
+          children: [
+            Container(
+              child: ElevatedButton(
+                onPressed: (){
+                  showCurrencyPicker(
+                    context: context,
+                    showFlag: true,
+                    showSearchField: true,
+                    showCurrencyName: true,
+                    showCurrencyCode: true,
+                    onSelect: (Currency currency) {
+                      print('Select currency: ${currency.code}');
+                      choosenCurr = currency.code;
+                      _getRates();
+                    },
+                    favorite: ['RUB'],
+                  );
+                },
+                child: const Text('Show currency picker'),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: searchIndices.length,
+                itemBuilder: (context, index) {
+                  final rate = rates[searchIndices[index]];
+                  return CurrencyCard(
+                    name: searchIndices[index], price: rate["value"]
+                  );
+                }
+              ),
+            ),
+          ],
+        ),
+    );
   }
 }
