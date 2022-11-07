@@ -6,9 +6,9 @@ class Country {
 }
 
 final List<Country> datas = [
-  Country(name: 'RU', urlFlag: 'russia.png', currency: 'RUB'),
-  Country(name: 'USA', urlFlag: 'usas.png', currency: 'USD'),
-  Country(name: 'EU', urlFlag: 'es.png', currency: 'EUR'),
+  Country(name: 'RU', urlFlag: 'RUB.png', currency: 'RUB'),
+  Country(name: 'USA', urlFlag: 'USD.png', currency: 'USD'),
+  Country(name: 'EU', urlFlag: 'EUR.png', currency: 'EUR'),
   Country(name: 'JPY', urlFlag: 'japan.png', currency: 'JPY'),
   Country(name: 'GBP', urlFlag: 'GBP.png', currency: 'GBP'),
   Country(name: 'AUD', urlFlag: 'AUD.png', currency: 'AUD'),

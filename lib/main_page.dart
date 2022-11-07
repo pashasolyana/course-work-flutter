@@ -1,8 +1,6 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:myapp/nav_bar_items/graphics_page.dart';
+import 'package:myapp/nav_bar_items/cal_page.dart';
 import 'package:myapp/nav_bar_items/home_page.dart';
 import 'package:myapp/nav_bar_items/list_pages.dart';
 
@@ -15,8 +13,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
-
-  List screens = [ListPage(), const HomePage(), const GraphicPage()];
+  List screens = [const ListPage(), const HomePage(), const CalcPage()];
 
   void onTap(int index) {
     setState(() {

@@ -16,6 +16,7 @@ class _ListPageState extends State<ListPage> {
   late Map<dynamic, dynamic> rates;
   var keyIndices = [];
   var searchIndices = [];
+  var choosenCurr = "USA";
 
   String _getImageName(String index) {
     return "assets/" + index + ".png";
@@ -23,7 +24,7 @@ class _ListPageState extends State<ListPage> {
 
   dynamic fetchCoin() async {
     final response = await http.get(Uri.parse(
-        'https://v6.exchangerate-api.com/v6/5e8c375a23495c5883da2555/latest/RUB'));
+        'https://v6.exchangerate-api.com/v6/5e8c375a23495c5883da2555/latest/USD'));
 
     final map = json.decode(response.body);
     if (map["result"] == "success") {
@@ -41,20 +42,12 @@ class _ListPageState extends State<ListPage> {
     final response = await fetchCoin();
     if (response is Map) {
       for (var key in response.keys) {
-        print(response[key]["flag"] +
-            " " +
-            response[key]["definition"] +
-            ": " +
-            response[key]["symbol"].toString() +
-            response[key]["value"].toString());
         keyIndices.add(key);
       }
-      print(keyIndices);
       setState(() {
         searchIndices = keyIndices;
         rates = response;
       });
-      print(rates);
     } else {
       throw Exception('FAILED N2');
     }
@@ -62,6 +55,7 @@ class _ListPageState extends State<ListPage> {
 
   @override
   void initState() {
+    fetchCoin();
     _getRates();
     super.initState();
   }
@@ -78,9 +72,9 @@ class _ListPageState extends State<ListPage> {
                     fontWeight: FontWeight.bold))),
         body: ListView.builder(
             scrollDirection: Axis.vertical,
-            itemCount: this.rates != null ? this.searchIndices.length : 0,
+            itemCount: searchIndices.length,
             itemBuilder: (context, index) {
-              final rate = rates[this.searchIndices[index]];
+              final rate = rates[searchIndices[index]];
               return CurrencyCard(
                   name: searchIndices[index], price: rate["value"]);
             }));
