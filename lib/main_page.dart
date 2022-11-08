@@ -12,7 +12,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   List screens = [const ListPage(), const HomePage(), const CalcPage()];
 
   void onTap(int index) {
@@ -43,7 +43,7 @@ class _MainPageState extends State<MainPage> {
             textColor: Colors.black,
           ),
           GButton(
-            icon: Icons.align_vertical_bottom_rounded,
+            icon: Icons.calculate_rounded,
             text: 'Calc',
             iconActiveColor: Colors.black,
             textColor: Colors.black,

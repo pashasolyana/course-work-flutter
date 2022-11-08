@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                       ]),
                   child: Center(
                     child: Text('=',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 30, fontWeight: FontWeight.w600)),
                   ),
                 ),
@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Image.asset('assets/up-down.png', height: 30),
                           Text('Switch Currencies',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.indigo,
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500))
@@ -124,16 +124,10 @@ class _HomePageState extends State<HomePage> {
       {double? res}) {
     return Container(
       height: 170,
-      decoration: BoxDecoration(
-          color: Colors.white,
+      decoration: BoxDecoration(color: Colors.white,
           borderRadius: BorderRadius.circular(5),
           boxShadow: [
-            BoxShadow(
-                color: Colors.indigo.withOpacity(0.3),
-                spreadRadius: 2,
-                blurRadius: 4,
-                offset: Offset(0, 3))
-          ]),
+            BoxShadow(color: Colors.indigo.withOpacity(0.3), spreadRadius: 2, blurRadius: 4, offset: Offset(0, 3))]),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -143,29 +137,12 @@ class _HomePageState extends State<HomePage> {
                 onTap: () => _buildMenuCurrency(isDestination),
                 child: Row(
                   children: [
-                    ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.asset('assets/'+ country.urlFlag,
-                            height: 30, width: 30)),
-                    SizedBox(
-                      width: 10,
-                    ),
+                    ClipRRect(borderRadius: BorderRadius.circular(5), child: Image.asset('assets/'+ country.urlFlag,height: 30, width: 30)),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(country.name,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w600)),
-                          Text(country.currency,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400)),
-                        ],
-                      ),
+                        children: [Text(country.name, style: const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w600)), Text(country.currency, style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400)),],),
                     ),
                     Icon(Icons.chevron_right, color: Colors.grey)
                   ],
@@ -174,7 +151,7 @@ class _HomePageState extends State<HomePage> {
               TextFormField(
                 key:
                     isDestination ? Key(res.toString()) : Key(value.toString()),
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+                style:const TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
                 initialValue: isDestination ? res.toString() : value.toString(),
                 onFieldSubmitted: (val) {
                   if (double.parse(val) != null) {
@@ -188,9 +165,9 @@ class _HomePageState extends State<HomePage> {
                     hintText: '0.0',
                     enabled: !isDestination,
                     suffixIcon: Text(country.currency,
-                        style: TextStyle(fontSize: 20, color: Colors.grey)),
+                        style: const TextStyle(fontSize: 20, color: Colors.grey)),
                     suffixIconConstraints:
-                        BoxConstraints(minWidth: 0, minHeight: 0)),
+                    const BoxConstraints(minWidth: 0, minHeight: 0)),
               )
             ]),
       ),

@@ -18,9 +18,6 @@ class _ListPageState extends State<ListPage> {
   var searchIndices = [];
   var choosenCurr = 'USD';
 
-  String _getImageName(String index) {
-    return "assets/" + index + ".png";
-  }
 
   dynamic fetchCoin() async {
     late String uri = 'https://v6.exchangerate-api.com/v6/5e8c375a23495c5883da2555/latest/$choosenCurr';
