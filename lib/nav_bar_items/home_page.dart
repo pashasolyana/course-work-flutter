@@ -35,10 +35,12 @@ class _HomePageState extends State<HomePage> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text('Currency converter',
-            style: TextStyle(color: Colors.black)),
-      ),
+          backgroundColor: Colors.grey[100],
+          title: Text('CURRENCY COVNERTER',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold))),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Column(
@@ -89,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         children: [
-                          Image.asset('up-down.png', height: 30),
+                          Image.asset('assets/up-down.png', height: 30),
                           Text('Switch Currencies',
                               style: TextStyle(
                                   color: Colors.indigo,
@@ -143,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     ClipRRect(
                         borderRadius: BorderRadius.circular(5),
-                        child: Image.asset(country.urlFlag,
+                        child: Image.asset('assets/'+ country.urlFlag,
                             height: 30, width: 30)),
                     SizedBox(
                       width: 10,

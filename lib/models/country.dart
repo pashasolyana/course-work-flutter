@@ -9,7 +9,7 @@ final List<Country> datas = [
   Country(name: 'RU', urlFlag: 'RUB.png', currency: 'RUB'),
   Country(name: 'USA', urlFlag: 'USD.png', currency: 'USD'),
   Country(name: 'EU', urlFlag: 'EUR.png', currency: 'EUR'),
-  Country(name: 'JPY', urlFlag: 'japan.png', currency: 'JPY'),
+  Country(name: 'JPY', urlFlag: 'JPY.png', currency: 'JPY'),
   Country(name: 'GBP', urlFlag: 'GBP.png', currency: 'GBP'),
   Country(name: 'AUD', urlFlag: 'AUD.png', currency: 'AUD'),
   Country(name: 'CAD', urlFlag: 'CAD.png', currency: 'CAD'),

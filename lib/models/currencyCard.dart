@@ -29,7 +29,7 @@ class CurrencyCard extends StatelessWidget {
             ]),
         child: Row(children: [
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(10.0),
             child: Container(
                 decoration: BoxDecoration(
                     color: Colors.grey[300],
@@ -50,7 +50,7 @@ class CurrencyCard extends StatelessWidget {
                 width: 60,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Image.asset('$name.png'),
+                  child: Image.asset('assets/$name.png'),
                 )),
           ),
           Expanded(
@@ -63,7 +63,7 @@ class CurrencyCard extends StatelessWidget {
                     name,
                     style: TextStyle(
                         color: Colors.grey[900],
-                        fontSize: 25,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -80,7 +80,7 @@ class CurrencyCard extends StatelessWidget {
                   price.toDouble().toString(),
                   style: TextStyle(
                       color: Colors.grey[900],
-                      fontSize: 25,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold),
                 ),
               ],

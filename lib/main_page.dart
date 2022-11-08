@@ -44,7 +44,7 @@ class _MainPageState extends State<MainPage> {
           ),
           GButton(
             icon: Icons.align_vertical_bottom_rounded,
-            text: 'Graphics',
+            text: 'Calc',
             iconActiveColor: Colors.black,
             textColor: Colors.black,
           ),

@@ -1,4 +1,3 @@
-import 'package:myapp/models/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,170 +10,190 @@ class CalcPage extends StatefulWidget {
 }
 
 class _CalcPageState extends State<CalcPage> {
-  var userInput = '';
-  var answer = '0';
+  String equation = "0";
+  String result = "0";
+  String expression = "";
 
-  final List<String> buttons = [
-    'C',
-    '%',
-    'DEL',
-    '/',
-    '7',
-    '8',
-    '9',
-    'x',
-    '4',
-    '5',
-    '6',
-    '-',
-    '1',
-    '2',
-    '3',
-    '+',
-    '00',
-    '0',
-    '.',
-    '=',
-  ];
+  double equationFontSize = 25.0;
+  double resultFontSize = 35.0;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(right: 20, top: 70, left: 20),
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      userInput,
-                      style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(right: 15, left: 20),
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      answer,
-                      style: TextStyle(
-                        fontSize: 55,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+  /// When users click the buttons, does processes and gives the result.
+  buttonPressed(String buttonText) {
+    setState(() {
+      if (buttonText == "C") {
+        equation = "0";
+        result = "0";
+        resultFontSize = 35.0;
+      } else if (buttonText == "X") {
+        equationFontSize = 35.0;
+        resultFontSize = 25.0;
+
+        equation = equation.substring(0, equation.length - 1);
+        if (equation == "") equation = "0";
+      } else if (buttonText == "=") {
+        equationFontSize = 25.0;
+        resultFontSize = 35.0;
+
+        expression = equation;
+        expression = expression.replaceAll("x", "*");
+        expression = expression.replaceAll("/", "/");
+        try {
+          Parser p = Parser();
+          Expression exp = p.parse(expression);
+
+          ContextModel cm = ContextModel();
+
+          double res = exp.evaluate(EvaluationType.REAL, cm);
+          result = (res % 1 == 0 ? res.toInt() : res).toString();
+          equation = result;
+        } catch (e) {
+          result = "Error";
+        }
+      } else {
+        equationFontSize = 35.0;
+        resultFontSize = 25.0;
+
+        if (equation == "0") {
+          equation = buttonText;
+        } else {
+          equation = equation + buttonText;
+        }
+      }
+    });
+  }
+
+  /// When it works create button Widgets
+  Widget buildButton(String buttonText, double buttonHeight, Color textColor) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.width * .20,
+      child: OutlinedButton(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: textColor,
+          padding: const EdgeInsets.all(15.0),
+          backgroundColor: Colors.black12,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              MediaQuery.of(context).size.width,
             ),
           ),
-          Expanded(
-            flex: 4,
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 12),
-              child: GridView.builder(
-                itemCount: buttons.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  if (index == 0) {
-                    return MyButton(
-                      buttontapped: () {
-                        setState(() {
-                          userInput = '';
-                          answer = '0';
-                        });
-                      },
-                      buttonText: buttons[index],
-                      color: Colors.black,
-                      textColor: Colors.white,
-                    );
-                  } else if (index == 1) {
-                    return MyButton(
-                      buttontapped: () {
-                        setState(() {
-                          userInput += buttons[index];
-                        });
-                      },
-                      buttonText: buttons[index],
-                      color: Colors.black,
-                      textColor: Colors.white,
-                    );
-                  } else if (index == 2) {
-                    return MyButton(
-                      buttontapped: () {
-                        setState(() {
-                          userInput =
-                              userInput.substring(0, userInput.length - 1);
-                        });
-                      },
-                      buttonText: buttons[index],
-                      color: Colors.black,
-                      textColor: Colors.white,
-                    );
-                  } else if (index == 19) {
-                    return MyButton(
-                      buttontapped: () {
-                        setState(() {
-                          equalPressed();
-                        });
-                      },
-                      buttonText: buttons[index],
-                      color: Colors.black,
-                      textColor: Colors.white,
-                    );
-                  } else {
-                    return MyButton(
-                      buttontapped: () {
-                        setState(() {
-                          userInput += buttons[index];
-                        });
-                      },
-                      buttonText: buttons[index],
-                      color: isOperator(buttons[index])
-                          ? Colors.black
-                          : Colors.grey.withOpacity(0.3),
-                      textColor: isOperator(buttons[index])
-                          ? Colors.white
-                          : Colors.black,
-                    );
-                  }
-                },
-              ),
-            ),
-          ),
-        ],
+        ),
+        onPressed: () => buttonPressed(buttonText),
+        child: Text(
+          buttonText,
+          style: TextStyle(
+              fontSize: 32.0, fontWeight: FontWeight.normal, color: textColor),
+        ),
       ),
     );
   }
 
-  bool isOperator(String o) {
-    if (o == '/' || o == 'x' || o == '-' || o == '+' || o == '=') {
-      return true;
-    }
-
-    return false;
-  }
-
-  // function to calculate the input operation
-  void equalPressed() {
-    String finaluserinput = userInput;
-    finaluserinput = userInput.replaceAll('x', '*');
-
-    Parser p = Parser();
-    Expression exp = p.parse(finaluserinput);
-    ContextModel cm = ContextModel();
-    double eval = exp.evaluate(EvaluationType.REAL, cm);
-    answer = eval.toString();
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+              child: Text(
+                equation,
+                style: TextStyle(fontSize: equationFontSize),
+              ),
+            ), // Prints the Equation
+            Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+              child: Text(
+                result,
+                style: TextStyle(fontSize: resultFontSize),
+              ),
+            ), // Prints the Result
+            const Expanded(
+              child: Divider(),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .75,
+                  child: Table(
+                    children: [
+                      TableRow(
+                        children: [
+                          buildButton("C", 1, Colors.blueAccent),
+                          buildButton("X", 1, Colors.red),
+                          buildButton("%", 1, Colors.black),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          buildButton("7", 1, Colors.black),
+                          buildButton("8", 1, Colors.black),
+                          buildButton("9", 1, Colors.black),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          buildButton("4", 1, Colors.black),
+                          buildButton("5", 1, Colors.black),
+                          buildButton("6", 1, Colors.black),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          buildButton("1", 1, Colors.black),
+                          buildButton("2", 1, Colors.black),
+                          buildButton("3", 1, Colors.black),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          buildButton(".", 1, Colors.black),
+                          buildButton("0", 1, Colors.black),
+                          buildButton("00", 1, Colors.black),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .25,
+                  child: Table(
+                    children: [
+                      TableRow(
+                        children: [
+                          buildButton("/", 1, Colors.black),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          buildButton("x", 1, Colors.black),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          buildButton("-", 1, Colors.black),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          buildButton("+", 1, Colors.black),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          buildButton("=", 1, Colors.black),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ), // Button list
+          ],
+        ),
+      ),
+    );
   }
 }
