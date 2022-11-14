@@ -36,86 +36,87 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
           backgroundColor: Colors.grey[100],
-          title: Text('CURRENCY COVNERTER',
+          title: const Text('CURRENCY COVNERTER',
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
                   fontWeight: FontWeight.bold))),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
-        child: Column(
-          children: [
-            _buildCurrencyView(fromCountry, false),
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(2),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.indigo.withOpacity(0.2),
-                            spreadRadius: 2,
-                            blurRadius: 3,
-                            offset: Offset(0, 3))
-                      ]),
-                  child: Center(
-                    child: Text('=',
-                        style: const TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.w600)),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      final temp = fromCountry;
-                      fromCountry = toCountry;
-                      toCountry = temp;
-                      _requestConvert();
-                    });
-                  },
-                  child: Container(
+        child : SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildCurrencyView(fromCountry, false),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
                     height: 50,
-                    //width: 50,
+                    width: 50,
                     decoration: BoxDecoration(
-                        color: Colors.indigo[50],
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Colors.indigo)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        children: [
-                          Image.asset('assets/up-down.png', height: 30),
-                          Text('Switch Currencies',
-                              style: const TextStyle(
-                                  color: Colors.indigo,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500))
-                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(2),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.indigo.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: const Offset(0, 3))
+                        ]),
+                    child: const Center(
+                      child: Text('=',
+                          style: const TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.w600)),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        final temp = fromCountry;
+                        fromCountry = toCountry;
+                        toCountry = temp;
+                        _requestConvert();
+                      });
+                    },
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.indigo[50],
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Colors.indigo)),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                            Image.asset('assets/up-down.png', height: 30),
+                            Text('Switch Currencies',
+                                style: const TextStyle(
+                                    color: Colors.indigo,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w500))
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
-            FutureBuilder<double>(
-                future: resFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return _buildCurrencyView(toCountry, true,
-                        res: snapshot.data);
-                  }
-                  return SizedBox.shrink();
-                })
-          ],
-        ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              FutureBuilder<double>(
+                  future: resFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return _buildCurrencyView(toCountry, true,
+                          res: snapshot.data);
+                    }
+                    return SizedBox.shrink();
+                  })
+            ],
+          ),
+      )
       ),
     );
   }
@@ -123,7 +124,7 @@ class _HomePageState extends State<HomePage> {
   Container _buildCurrencyView(Country country, bool isDestination,
       {double? res}) {
     return Container(
-      height: 170,
+      height: MediaQuery.of(context).size.height * 0.2,
       decoration: BoxDecoration(color: Colors.white,
           borderRadius: BorderRadius.circular(5),
           boxShadow: [
@@ -137,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                 onTap: () => _buildMenuCurrency(isDestination),
                 child: Row(
                   children: [
-                    ClipRRect(borderRadius: BorderRadius.circular(5), child: Image.asset('assets/'+ country.urlFlag,height: 30, width: 30)),
+                    ClipRRect(borderRadius: BorderRadius.circular(5), child: Image.asset('assets/'+ country.urlFlag,height: MediaQuery.of(context).size.height * 0.035, width: MediaQuery.of(context).size.height * 0.035)),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Column(
@@ -154,12 +155,10 @@ class _HomePageState extends State<HomePage> {
                 style:const TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
                 initialValue: isDestination ? res.toString() : value.toString(),
                 onFieldSubmitted: (val) {
-                  if (double.parse(val) != null) {
-                    setState(() {
-                      value = double.parse(val);
-                      _requestConvert();
-                    });
-                  }
+                  setState(() {
+                    value = double.parse(val);
+                    _requestConvert();
+                  });
                 },
                 decoration: InputDecoration(
                     hintText: '0.0',

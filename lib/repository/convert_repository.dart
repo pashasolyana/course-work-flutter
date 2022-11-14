@@ -19,7 +19,10 @@ class ConvertRepo {
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = jsonDecode(response.body);
       final rate = jsonResponse['conversion_result'];
-      return rate;
+      String inString = rate.toStringAsFixed(4); // '2.35'
+      double inDouble = double.parse(inString);
+      print(inDouble);
+      return inDouble;
     } else {
       throw Exception('Failed to get data');
     }
