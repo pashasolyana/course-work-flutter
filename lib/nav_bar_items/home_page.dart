@@ -36,26 +36,26 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
           backgroundColor: Colors.grey[100],
-          title: const Text('CURRENCY COVNERTER',
+          title: Text('CURRENCY COVNERTER',
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 20,
+                  fontSize: MediaQuery.of(context).size.width * 0.05,
                   fontWeight: FontWeight.bold))),
       body: Padding(
-        padding: const EdgeInsets.all(30.0),
+        padding: const EdgeInsets.all(30),
         child : SingleChildScrollView(
           child: Column(
             children: [
               _buildCurrencyView(fromCountry, false),
-              const SizedBox(
-                height: 10,
+               SizedBox(
+                height: MediaQuery.of(context).size.height * 0.04,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    height: 50,
-                    width: 50,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    width: MediaQuery.of(context).size.width * 0.15,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(2),
@@ -66,10 +66,10 @@ class _HomePageState extends State<HomePage> {
                               blurRadius: 3,
                               offset: const Offset(0, 3))
                         ]),
-                    child: const Center(
+                    child: Center(
                       child: Text('=',
-                          style: const TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.w600)),
+                          style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.width * 0.07, fontWeight: FontWeight.w600)),
                     ),
                   ),
                   InkWell(
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                       });
                     },
                     child: Container(
-                      height: 50,
+                      height: MediaQuery.of(context).size.height * 0.05,
                       decoration: BoxDecoration(
                           color: Colors.indigo[50],
                           borderRadius: BorderRadius.circular(5),
@@ -91,11 +91,11 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
                           children: [
-                            Image.asset('assets/up-down.png', height: 30),
+                            Image.asset('assets/up-down.png', height: MediaQuery.of(context).size.height * 0.1),
                             Text('Switch Currencies',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Colors.indigo,
-                                    fontSize: 17,
+                                    fontSize: MediaQuery.of(context).size.width * 0.05,
                                     fontWeight: FontWeight.w500))
                           ],
                         ),
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.04),
               FutureBuilder<double>(
                   future: resFuture,
                   builder: (context, snapshot) {
@@ -124,13 +124,13 @@ class _HomePageState extends State<HomePage> {
   Container _buildCurrencyView(Country country, bool isDestination,
       {double? res}) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.2,
+      height: MediaQuery.of(context).size.height * 0.25,
       decoration: BoxDecoration(color: Colors.white,
           borderRadius: BorderRadius.circular(5),
           boxShadow: [
             BoxShadow(color: Colors.indigo.withOpacity(0.3), spreadRadius: 2, blurRadius: 4, offset: Offset(0, 3))]),
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.04),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -138,12 +138,12 @@ class _HomePageState extends State<HomePage> {
                 onTap: () => _buildMenuCurrency(isDestination),
                 child: Row(
                   children: [
-                    ClipRRect(borderRadius: BorderRadius.circular(5), child: Image.asset('assets/'+ country.urlFlag,height: MediaQuery.of(context).size.height * 0.035, width: MediaQuery.of(context).size.height * 0.035)),
-                    const SizedBox(width: 10),
+                    ClipRRect(borderRadius: BorderRadius.circular(5), child: Image.asset('assets/'+ country.urlFlag,height: MediaQuery.of(context).size.height * 0.06, width: MediaQuery.of(context).size.width * 0.06)),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [Text(country.name, style: const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w600)), Text(country.currency, style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400)),],),
+                        children: [Text(country.name, style: TextStyle(color: Colors.black, fontSize: MediaQuery.of(context).size.width * 0.035, fontWeight: FontWeight.w600)), Text(country.currency, style: TextStyle(color: Colors.black, fontSize: MediaQuery.of(context).size.width * 0.035, fontWeight: FontWeight.w400)),],),
                     ),
                     Icon(Icons.chevron_right, color: Colors.grey)
                   ],
@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> {
               TextFormField(
                 key:
                     isDestination ? Key(res.toString()) : Key(value.toString()),
-                style:const TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.07, fontWeight: FontWeight.w500),
                 initialValue: isDestination ? res.toString() : value.toString(),
                 onFieldSubmitted: (val) {
                   setState(() {
@@ -164,9 +164,9 @@ class _HomePageState extends State<HomePage> {
                     hintText: '0.0',
                     enabled: !isDestination,
                     suffixIcon: Text(country.currency,
-                        style: const TextStyle(fontSize: 20, color: Colors.grey)),
+                        style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.05, color: Colors.grey)),
                     suffixIconConstraints:
-                    const BoxConstraints(minWidth: 0, minHeight: 0)),
+                    BoxConstraints(minWidth: 0, minHeight: 0)),
               )
             ]),
       ),
